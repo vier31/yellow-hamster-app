@@ -27,9 +27,32 @@ const dummyBoards = ref<Partial<Board>[]>([
     order: "[]",
   },
 ]);
+
+const showVerticalOrHorizontal = ref('vertical')
+
+function createBoard() {
+  console.log("board created");
+}
 </script>
 
 <template>
+  <h1 class="text-xl mb-5">Boards</h1>
+  <section id="presentation_board">
+    <AppButtonVue :togglable="true" :disabled="showVerticalOrHorizontal === 'vertical'"
+      @click="showVerticalOrHorizontal = 'vertical'">vertical</AppButtonVue>
+    <AppButtonVue :togglable="true" :disabled="showVerticalOrHorizontal === 'horizontal'"
+      @click="showVerticalOrHorizontal = 'horizontal'">horizontal</AppButtonVue>
+  </section>
+  <div class="flex " :class="showVerticalOrHorizontal === 'vertical' ? 'flex-col items-center' : ''">
+    <BoardCard v-for="board in dummyBoards" :key="board.id" :board="board" />
+    <AppButtonVue class="border-solid border border-gray-200 p-2 mt-6" @click="createBoard()">
+      + Create new board
+    </AppButtonVue>
+  </div>
+</template>
+
+<!-- TODO: present error render app line 50 (image) -->
+<!-- <template>
   <h1 class="text-xl">Boards</h1>
 
   <ul class="flex flex-col items-center">
@@ -45,4 +68,7 @@ const dummyBoards = ref<Partial<Board>[]>([
       + Create new board
     </AppButtonVue>
   </ul>
-</template>
+</template> -->
+
+<style scoped>
+</style>
