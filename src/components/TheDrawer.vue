@@ -2,11 +2,13 @@
 import { Drawer, DrawerContent } from "@progress/kendo-vue-layout";
 import { useRouter } from "vue-router";
 import { computed, ref } from "vue";
+import { useLocalStorage } from "@vueuse/core";
 
 const router = useRouter();
 const selectedId = ref(0);
 
-const expanded = ref(false);
+// const expanded = ref(false);
+const expanded = useLocalStorage("drawer-expanded", true)
 const expandedIcon = computed(() => {
   return expanded.value ? "k-i-arrow-chevron-left" : "k-i-arrow-chevron-right";
 });
@@ -53,7 +55,7 @@ function onSelect({ itemIndex }: { itemIndex: number }) {
 
 <template>
   <Drawer
-    class="h-[90vh]"
+    class="h-[100vh]"
     :expanded="expanded"
     position="start"
     mode="push"
