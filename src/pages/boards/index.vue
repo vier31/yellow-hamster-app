@@ -27,6 +27,16 @@
 			title: "My Third Board",
 			order: "[]",
 		},
+		{
+			id: "4",
+			title: "My Quarter Board",
+			order: "[]",
+		},
+		{
+			id: "5",
+			title: "My Some Board",
+			order: "[]",
+		},
 	]);
 
 	const showVerticalOrHorizontal = ref("vertical");
@@ -37,6 +47,25 @@
 		// console.log("board created");
 		alertApp.success("New board created successfully!");
 	}
+
+	/* Board draggable */
+	const getCoolGradient = (index: number) => {
+		let finalGradientString = "";
+		switch (index) {
+			case 1:
+				finalGradientString = "from-orange-400 to-pink-500";
+				break;
+			case 2:
+				finalGradientString = "from-green-400 to-blue-400";
+				break;
+			case 3:
+				finalGradientString = "from-purple-400 to-blue-400";
+				break;
+			default:
+				finalGradientString = "from-orange-400 to-yellow-300";
+		}
+		return finalGradientString;
+	};
 </script>
 
 <template>
@@ -57,10 +86,13 @@
 			horizontal
 		</AppButtonVue>
 	</section>
-	<div
+	<!-- TODO: next remove Old version Exercise 2 (simple show experience comparison) -->
+	<!-- 	<div
 		class="flex"
 		:class="
-			showVerticalOrHorizontal === 'vertical' ? 'flex-col items-center' : ''
+			showVerticalOrHorizontal === 'vertical'
+				? 'flex-col items-center'
+				: 'flex-wrap gap-2'
 		"
 	>
 		<BoardCard v-for="board in dummyBoards" :key="board.id" :board="board" />
@@ -71,26 +103,34 @@
 		>
 			+ Create new board
 		</AppButtonVue>
+	</div> -->
+	<div
+		class="flex"
+		:class="
+			showVerticalOrHorizontal === 'vertical'
+				? 'flex-col items-center'
+				: 'flex-wrap gap-2'
+		"
+	>
+		<div
+			v-for="(board, index) in dummyBoards"
+			:key="board.id"
+			:class="getCoolGradient(index)"
+			class="border rounded-md bg-gradient-to-tr"
+		>
+			<BoardCard
+				:board="board"
+				class="transition duration-100 ease-in border rounded-md hover:-rotate-3"
+			/>
+		</div>
+		<AppButtonVue
+			class="border-solid border border-gray-200 p-2 mt-6"
+			:theme-color="'secondary'"
+			@click="createBoard()"
+		>
+			+ Create new board
+		</AppButtonVue>
 	</div>
 </template>
-
-<!-- TODO: present error render app line 50 (image) -->
-<!-- <template>
-  <h1 class="text-xl">Boards</h1>
-
-  <ul class="flex flex-col items-center">
-    <template v-for="board in dummyBoards" :key="board.id">
-      <router-link :to="`/boards/${board.id}`" class="block w-96">
-        <li class="border border-solid border-gray-200 rounded mt-2">
-          <h3 class="text-lg">{{ board.title }}</h3>
-          <img :src="board.image?.downloadUrl" />
-        </li>
-      </router-link>
-    </template>
-    <AppButtonVue class="border-solid border border-gray-200 p-2 mt-6">
-      + Create new board
-    </AppButtonVue>
-  </ul>
-</template> -->
 
 <style scoped></style>
